@@ -4,6 +4,7 @@ import 'package:english_words/english_words.dart';
 import 'package:f2_flutter_ecommerce_app/models/english_today.dart';
 import 'package:f2_flutter_ecommerce_app/packages/quote/qoute_model.dart';
 import 'package:f2_flutter_ecommerce_app/packages/quote/quote.dart';
+import 'package:f2_flutter_ecommerce_app/pages/all_page.dart';
 import 'package:f2_flutter_ecommerce_app/pages/control_page.dart';
 import 'package:f2_flutter_ecommerce_app/values/app_assets.dart';
 import 'package:f2_flutter_ecommerce_app/values/app_colors.dart';
@@ -11,6 +12,7 @@ import 'package:f2_flutter_ecommerce_app/values/app_styles.dart';
 import 'package:f2_flutter_ecommerce_app/values/share_keys.dart';
 import 'package:f2_flutter_ecommerce_app/widgets/app_button.dart';
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -131,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                       _currentIndex = index;
                     });
                   },
-                  itemCount: words.length,
+                  itemCount: words.length > 5 ? 6 : words.length,
                   itemBuilder: (context, index) {
                     String firstLetter =
                         words[index].noun != null ? words[index].noun! : '';
@@ -162,54 +164,103 @@ class _HomePageState extends State<HomePage> {
                           ],
                           borderRadius: BorderRadius.all(Radius.circular(24)),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                alignment: Alignment.centerRight,
-                                child: Image.asset(AppAssets.heart)),
-                            RichText(
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.start,
-                                text: TextSpan(
-                                    text: firstLetter,
-                                    style: TextStyle(
-                                        fontFamily: FontFamily.sen,
-                                        fontSize: 89,
-                                        fontWeight: FontWeight.bold,
-                                        shadows: [
-                                          BoxShadow(
-                                              color: Colors.black38,
-                                              offset: Offset(3, 6),
-                                              blurRadius: 6),
-                                        ]),
-                                    children: [
-                                      TextSpan(
-                                          text: leftLetter,
+                        child: index >= 5
+                            ? InkWell(
+                                onTap: () {
+                                  print('show more...');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          AllWordsPage(words: words),
+                                    ),
+                                  );
+                                },
+                                child: Center(
+                                  child: Text('Show more...',
+                                      style: AppStyles.h3.copyWith(shadows: [
+                                        BoxShadow(
+                                            color: Colors.black26,
+                                            offset: Offset(3, 6),
+                                            blurRadius: 6)
+                                      ])),
+                                ),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  LikeButton(
+                                    onTap: (bool isLiked) async {
+                                      setState(() {
+                                        words[index].isFavorite =
+                                            !words[index].isFavorite;
+                                      });
+                                      return words[index].isFavorite;
+                                    },
+                                    isLiked: words[index].isFavorite,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    size: 42,
+                                    circleColor: CircleColor(
+                                        start: Color(0xff00ddff),
+                                        end: Color(0xff0099cc)),
+                                    bubblesColor: BubblesColor(
+                                      dotPrimaryColor: Color(0xff33b5e5),
+                                      dotSecondaryColor: Color(0xff0099cc),
+                                    ),
+                                    likeBuilder: (bool isLiked) {
+                                      return ImageIcon(
+                                        AssetImage(AppAssets.heart),
+                                        color:
+                                            isLiked ? Colors.red : Colors.white,
+                                        size: 42,
+                                      );
+                                    },
+                                  ),
+                                  // Container(
+                                  //     alignment: Alignment.centerRight,
+                                  //     child: Image.asset(AppAssets.heart)),
+                                  RichText(
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.start,
+                                      text: TextSpan(
+                                          text: firstLetter,
                                           style: TextStyle(
                                               fontFamily: FontFamily.sen,
-                                              fontSize: 56,
+                                              fontSize: 89,
                                               fontWeight: FontWeight.bold,
                                               shadows: [
                                                 BoxShadow(
                                                     color: Colors.black38,
                                                     offset: Offset(3, 6),
                                                     blurRadius: 6),
-                                              ])),
-                                    ])),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 24),
-                              child: AutoSizeText(
-                                '"$qoute"',
-                                maxFontSize: 26,
-                                style: AppStyles.h4.copyWith(
-                                    letterSpacing: 1,
-                                    color: AppColors.textColor),
+                                              ]),
+                                          children: [
+                                            TextSpan(
+                                                text: leftLetter,
+                                                style: TextStyle(
+                                                    fontFamily: FontFamily.sen,
+                                                    fontSize: 56,
+                                                    fontWeight: FontWeight.bold,
+                                                    shadows: [
+                                                      BoxShadow(
+                                                          color: Colors.black38,
+                                                          offset: Offset(3, 6),
+                                                          blurRadius: 6),
+                                                    ])),
+                                          ])),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 24),
+                                    child: AutoSizeText(
+                                      '"$qoute"',
+                                      maxFontSize: 26,
+                                      style: AppStyles.h4.copyWith(
+                                          letterSpacing: 1,
+                                          color: AppColors.textColor),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
                       ),
                     );
                   }),
@@ -283,7 +334,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildIndicator(bool isActive, Size size) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 500),
       height: 8,
       margin: const EdgeInsets.symmetric(horizontal: 12),
       width: isActive ? size.width * 1 / 5 : 24,

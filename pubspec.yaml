@@ -31,6 +31,7 @@ dependencies:
   english_words: ^4.0.0
   shared_preferences: ^2.0.6
   auto_size_text: ^3.0.0-nullsafety.0
+  like_button: ^2.0.2
 
 dev_dependencies:
   flutter_test:
