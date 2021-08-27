@@ -1,16 +1,9 @@
-# f2_flutter_ecommerce_app
+Một số tài liệu tham khảo cho các bạn quan tâm lập trình Flutter:
 
-A new Flutter project.
+Bộ videos hướng dẫn làm app học tiếng Anh với Flutter (dành cho người mới): https://www.youtube.com/playlist?list=PLFcgubjtcw5U-Y6z1gpR02ebF-jyLoyga
 
-## Getting Started
+Seri bài viết tìm hiểu ngôn ngữ DART: https://200lab.io/blog/tu-hoc-ngon-dart-nhung-dieu-can-biet-truoc-khi-bat-dau
 
-This project is a starting point for a Flutter application.
+Seri bài viết hướng dẫn làm app, các kỹ thuật thường dùng trong Flutter: https://200lab.io/blog/flutter-co-ban-xay-dung-ung-dung-dau-tien
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Và nhiều bài viết về Flutter tại đây: https://200lab.io/blog/tag/flutter
